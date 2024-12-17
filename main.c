@@ -42,7 +42,7 @@ int main() {
     // Main game loop
     while (!WindowShouldClose()) // Detect window close button or ESC key
     {
-        BeginDrawing();
+        BeginDrawing(); {
             if (dt >= 6) {
                 dt = 0;
                 currentFrame++;
@@ -57,15 +57,16 @@ int main() {
                 currentFrame = 0;
             }
 
-            if (IsKeyPressed(KEY_A)&& mario_rect.width > 0) {
-                mario_rect.width= mario_rect.width*-1.0;
+            if (IsKeyPressed(KEY_A) && mario_rect.width > 0) {
+                mario_rect.width = -mario_rect.width;
             } else if (IsKeyPressed(KEY_D) && mario_rect.width < 0) {
-                mario_rect.width= mario_rect.width*-1.0;
+                mario_rect.width = -mario_rect.width;
             }
 
-        DrawTextureRec(mario_texture, mario_rect, mario_pos, WHITE);
-
+            DrawTextureRec(mario_texture, mario_rect, mario_pos, WHITE);
+        }
         EndDrawing();
+
         dt++;
     }
 
