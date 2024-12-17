@@ -30,7 +30,7 @@ int main() {
         .y = 0
     };
 
-    const Vector2 mario_pos = {
+    Vector2 mario_pos = {
         .x = (float) screenWidth / 2 - (float) mario_texture.width / 2,
         .y = (float) screenHeight / 2 - (float) mario_texture.height / 2
     };
@@ -41,13 +41,26 @@ int main() {
     while (!WindowShouldClose()) // Detect window close button or ESC key
     {
         BeginDrawing(); {
+            // Movement Begin
+            // --------------------------------------------------------------------------------------------------------
+            if (IsKeyDown(KEY_D)) {
+                mario_pos.x += 3.0f;
+            }
+
+            if (IsKeyDown(KEY_A)) {
+                mario_pos.x -= 3.0f;
+            }
+            // --------------------------------------------------------------------------------------------------------
+            // Movement End
+
+            // Animation Begin
+            // --------------------------------------------------------------------------------------------------------
             if (dt >= 6) {
                 dt = 0;
                 currentFrame++;
                 if (currentFrame >= 4) currentFrame = 1;
             }
 
-            ClearBackground(GRAY);
             if (IsKeyDown(KEY_D) || IsKeyDown(KEY_A)) {
                 mario_rect.x = (float) WALK_FRAMES[currentFrame - 1];
             } else {
@@ -58,7 +71,10 @@ int main() {
             if ((IsKeyPressed(KEY_A) && mario_rect.width > 0) || (IsKeyPressed(KEY_D) && mario_rect.width < 0))
                 mario_rect.width = -mario_rect.width;
 
+            ClearBackground(GRAY);
             DrawTextureRec(mario_texture, mario_rect, mario_pos, WHITE);
+            // --------------------------------------------------------------------------------------------------------
+            // Animation End
         }
         EndDrawing();
 
