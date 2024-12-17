@@ -7,6 +7,7 @@ int screenWidth = 800;
 int screenHeight = 450;
 const int imageScale = 4;
 int WALK_FRAMES[3] = {48 * imageScale, 32 * imageScale, 16 * imageScale};
+int JUMP_FRAMES[2]={80 * imageScale};
 //----------------------------------------------------------------------------------
 // Main Entry Point
 //----------------------------------------------------------------------------------
@@ -23,6 +24,8 @@ int main() {
     const Texture mario_texture = LoadTextureFromImage(image);
     UnloadImage(image);
 
+
+
     Rectangle mario_rect = {
         .height = (float) (16 * imageScale),
         .width = (float) (16 * imageScale),
@@ -34,9 +37,10 @@ int main() {
         .x = (float) screenWidth / 2 - (float) mario_texture.width / 2,
         .y = (float) screenHeight / 2 - (float) mario_texture.height / 2
     };
-
+    const float floor = (float) screenHeight / 2 - (float) mario_texture.height / 2;
     int currentFrame = 1;
     int dt = 0;
+    float accel = 0.0f;
     // Main game loop
     while (!WindowShouldClose()) // Detect window close button or ESC key
     {
@@ -50,6 +54,34 @@ int main() {
             if (IsKeyDown(KEY_A)) {
                 mario_pos.x -= 3.0f;
             }
+
+            if (accel == 0.0f ) {
+                if (mario_pos.y < floor) {
+                    accel = -30.0f;
+                }
+            }
+
+            if (mario_pos.y > floor){
+                if (accel < 0.0f) {
+                    accel = 0.0f;
+                }
+                mario_pos.y =floor;
+            }
+
+
+            if (IsKeyPressed(KEY_W)) {
+                accel = 30.0f;
+            }
+            if (accel > 0.0f) {
+                mario_pos.y -= 4.0f;
+                accel -= 1.0f;
+            }
+            if (accel < 0.0f) {
+                mario_pos.y += 4.0f;
+                accel += 1.0f;
+            }
+
+
             // --------------------------------------------------------------------------------------------------------
             // Movement End
 
@@ -70,7 +102,9 @@ int main() {
 
             if ((IsKeyPressed(KEY_A) && mario_rect.width > 0) || (IsKeyPressed(KEY_D) && mario_rect.width < 0))
                 mario_rect.width = -mario_rect.width;
-
+            if (mario_pos.y < floor) {
+                mario_rect.x = (float) JUMP_FRAMES[0];
+            }
             ClearBackground(GRAY);
             DrawTextureRec(mario_texture, mario_rect, mario_pos, WHITE);
             // --------------------------------------------------------------------------------------------------------
