@@ -1,5 +1,3 @@
-#include <stdio.h>
-
 #include "raylib.h"
 
 //----------------------------------------------------------------------------------
@@ -26,8 +24,8 @@ int main() {
     UnloadImage(image);
 
     Rectangle mario_rect = {
-        .height = 16 * imageScale,
-        .width = 16 * imageScale,
+        .height = (float) (16 * imageScale),
+        .width = (float) (16 * imageScale),
         .x = 0,
         .y = 0
     };
@@ -57,11 +55,8 @@ int main() {
                 currentFrame = 0;
             }
 
-            if (IsKeyPressed(KEY_A) && mario_rect.width > 0) {
+            if ((IsKeyPressed(KEY_A) && mario_rect.width > 0) || (IsKeyPressed(KEY_D) && mario_rect.width < 0))
                 mario_rect.width = -mario_rect.width;
-            } else if (IsKeyPressed(KEY_D) && mario_rect.width < 0) {
-                mario_rect.width = -mario_rect.width;
-            }
 
             DrawTextureRec(mario_texture, mario_rect, mario_pos, WHITE);
         }
