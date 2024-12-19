@@ -41,4 +41,4 @@ if (APPLE)
 endif()
 
 
-target_compile_definitions(${PROJECT_NAME} PUBLIC ASSETS_PATH="${CMAKE_CURRENT_SOURCE_DIR}/")
+configure_file(mario.png mario.png COPYONLY)

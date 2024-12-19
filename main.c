@@ -27,7 +27,7 @@ int main() {
 
     SetTargetFPS(60); // Set our game to run at 60 frames-per-second
     //--------------------------------------------------------------------------------------
-    Image image = LoadImage(ASSETS_PATH"./mario.png");
+    Image image = LoadImage("./mario.png");
     ImageResizeNN(&image, image.width * imageScale, image.height * imageScale);
 
 
